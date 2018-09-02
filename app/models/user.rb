@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_secure_password
   belongs_to :household, optional: true
   has_many :expenses
   has_many :payments
