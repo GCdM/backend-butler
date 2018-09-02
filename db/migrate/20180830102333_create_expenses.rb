@@ -6,7 +6,7 @@ class CreateExpenses < ActiveRecord::Migration[5.2]
       t.string :description
       t.datetime :date
       t.float :amount
-      t.string :type
+      t.string :category
 
       t.timestamps
     end
