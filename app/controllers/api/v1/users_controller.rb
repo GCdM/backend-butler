@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :info, :update, :destroy]
 
   def create
     @user = User.new(user_params)
@@ -13,6 +13,11 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     render json: @user
+  end
+
+  def info
+    byebug
+    render json: @user, serializer: UserInfoSerializer
   end
 
   def update
