@@ -10,7 +10,4 @@ class Api::V1::HouseholdsController < ApplicationController
     @household = Household.find(params[:id])
   end
 
-  def household_params
-
-  end
 end
