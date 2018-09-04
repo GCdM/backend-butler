@@ -16,7 +16,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def info
-    byebug
     render json: @user, serializer: UserInfoSerializer
   end
 
