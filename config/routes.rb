@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get '/users_info/:id', to: 'users#info'
 
       resources :households, only: [:show]
+      
+      resources :expenses, only: [:create]
     end
   end
 end
