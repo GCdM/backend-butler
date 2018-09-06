@@ -12,20 +12,8 @@ num_of_households = [2, 3, 4, 5, 6]
 num_of_users = [2, 3, 4, 5, 6, 7, 8]
 num_of_expenses = [1, 2, 3]
 num_of_events = [1, 2]
-img_urls = [
-  'https://react.semantic-ui.com/images/avatar/large/matthew.png',
-  'https://react.semantic-ui.com/images/avatar/large/elliot.jpg',
-  'https://react.semantic-ui.com/images/avatar/large/daniel.jpg',
-  'https://react.semantic-ui.com/images/avatar/large/steve.jpg',
-  'https://react.semantic-ui.com/images/avatar/large/molly.png',
-  'https://react.semantic-ui.com/images/avatar/large/jenny.jpg',
-  'https://react.semantic-ui.com/images/avatar/small/joe.jpg',
-  'https://react.semantic-ui.com/images/avatar/small/justen.jpg',
-  'https://react.semantic-ui.com/images/avatar/small/helen.jpg',
-  'https://react.semantic-ui.com/images/avatar/small/laura.jpg'
-]
 
-lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
 event_counter = 0
 
 
@@ -36,7 +24,12 @@ num_of_households.sample.times do
   num_of_users.sample.times do
 
     name = Faker::Name.name
-    user = User.create(username: name.downcase, display_name: name, password: "guest", household: house, img_url: img_urls.sample)
+    img = Faker::Avatar.image
+    user = User.create(username: name.downcase, display_name: name, password: "guest", household: house, img_url: img)
+
+  end
+
+  house.users.each do |user|
 
     num_of_expenses.sample.times do
 
