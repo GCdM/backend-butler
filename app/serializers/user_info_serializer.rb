@@ -15,7 +15,7 @@ class UserInfoSerializer < ActiveModel::Serializer
         date: event.date,
         title: event.title,
         description: event.description,
-        # attendance: attendance(event.event_users),
+        attendance: attendance(event.event_users),
       }
     }
   end
@@ -48,7 +48,8 @@ class UserInfoSerializer < ActiveModel::Serializer
 
   def attendance(event_users)
     event_users.map { |event_user| {
-
+        userImg: event_users.user.img_url,
+        status: event_user.status,
       }
     }
   end
