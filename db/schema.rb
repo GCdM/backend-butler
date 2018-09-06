@@ -40,7 +40,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_135603) do
     t.string "title"
     t.string "description"
     t.datetime "date"
-    t.float "amount"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "GBP", null: false
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -56,7 +57,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_135603) do
   create_table "payments", force: :cascade do |t|
     t.bigint "expense_id"
     t.bigint "user_id"
-    t.float "amount"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "GBP", null: false
     t.boolean "paid"
     t.boolean "received"
     t.datetime "created_at", null: false
@@ -69,6 +71,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_135603) do
     t.string "username"
     t.string "display_name"
     t.string "password_digest"
+    t.string "img_url"
     t.bigint "household_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

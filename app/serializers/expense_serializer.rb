@@ -4,6 +4,7 @@ class ExpenseSerializer < ActiveModel::Serializer
   def data
     {
       userName: object.user.display_name,
+      userImg: object.user.img_url,
       title: object.title,
       description: object.description,
       amount: object.amount,

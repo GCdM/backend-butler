@@ -3,6 +3,8 @@ class Expense < ApplicationRecord
   has_one :household, through: :user
   has_many :payments
 
+  monetize :amount_cents, as: "amount"
+
   def initialize(args)
     super(args)
     self.save

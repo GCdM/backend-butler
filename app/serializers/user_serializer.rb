@@ -7,6 +7,7 @@ class UserSerializer < ActiveModel::Serializer
       username: object.username,
       displayName: object.display_name,
       householdId: object.household_id,
+      imgUrl: object.img_url,
     }
   end
 end
