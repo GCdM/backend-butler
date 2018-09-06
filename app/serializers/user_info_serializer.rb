@@ -28,7 +28,7 @@ class UserInfoSerializer < ActiveModel::Serializer
         description: expense.description,
         amount: expense.amount.format,
         date: expense.date,
-        # payments: parse_expense_payments(expense.payments),
+        payments: parse_expense_payments(expense.payments),
       }
     }
   end
@@ -37,7 +37,11 @@ class UserInfoSerializer < ActiveModel::Serializer
     object.payments.map { |payment| {
         summary: payment_summary(payment),
         userImg: payment.expense.user.img_url,
+        userName: payment.expense.user.display_name,
         date: payment.updated_at,
+        status: payment.status,
+        expenseTitle: payment.expense.title,
+        amount: payment.amount.format
       }
     }
   end
@@ -51,18 +55,19 @@ class UserInfoSerializer < ActiveModel::Serializer
 
   def parse_expense_payments(payments)
     payments.map { |payment| {
-
+        userImg: payment.user.img_url,
+        status: payment.status,
       }
     }
   end
 
   def payment_summary(payment)
-    if payment.received
-      "You've paid #{payment.amount.format} to #{payment.expense.user.display_name} for #{payment.expense.title}"
-    elsif payment.paid
-      "Awaiting confirmation that you've paid #{payment.amount.format} to #{payment.expense.user.display_name} for #{payment.expense.title}"
+    if payment.status === "settled"
+      "You've paid "
+    elsif payment.status === "pending"
+      "Awaiting confirmation that you've paid "
     else
-      "You owe #{payment.amount.format} to #{payment.expense.user.display_name} for #{payment.expense.title}"
+      "You owe "
     end
   end
 end
