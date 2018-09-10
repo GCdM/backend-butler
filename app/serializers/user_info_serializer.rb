@@ -12,12 +12,16 @@ class UserInfoSerializer < ActiveModel::Serializer
 
   def events
     object.household.events.map { |event| {
+        id: event.id,
         date: event.date,
         title: event.title,
         description: event.description,
         attendance: attendance(event.event_users),
       }
     }
+
+    # result = events.select { |event| EventUser.find_by(event_id: event[:id], user_id: object.id).status != "rejected" }
+    # result
   end
 
   def expenses
@@ -34,7 +38,8 @@ class UserInfoSerializer < ActiveModel::Serializer
   end
 
   def payments
-    object.payments.map { |payment| {
+    result = object.payments.map { |payment| {
+        id: payment.id,
         summary: payment_summary(payment),
         userImg: payment.expense.user.img_url,
         userName: payment.expense.user.display_name,
@@ -43,12 +48,14 @@ class UserInfoSerializer < ActiveModel::Serializer
         expenseTitle: payment.expense.title,
         amount: payment.amount.format
       }
-    }
+    }.sort_by { |payment| payment[:id] }
   end
 
   def attendance(event_users)
     event_users.map { |event_user| {
-        userImg: event_users.user.img_url,
+        id: event_user.id,
+        userId: event_user.user.id,
+        userImg: event_user.user.img_url,
         status: event_user.status,
       }
     }
@@ -56,10 +63,11 @@ class UserInfoSerializer < ActiveModel::Serializer
 
   def parse_expense_payments(payments)
     payments.map { |payment| {
+        id: payment.id,
         userImg: payment.user.img_url,
         status: payment.status,
       }
-    }
+    }.sort_by { |payment| payment[:id] }
   end
 
   def payment_summary(payment)

@@ -8,8 +8,14 @@ Rails.application.routes.draw do
       get '/users_info/:id', to: 'users#info'
 
       resources :households, only: [:show]
-      
+
       resources :expenses, only: [:create]
+
+      patch '/payments/:id/received', to: 'payments#received'
+      patch '/payments/:id/paid', to: 'payments#paid'
+
+      patch '/event_users/:id/accept', to: 'events#accept'
+      patch '/event_users/:id/reject', to: 'events#reject'
     end
   end
 end
