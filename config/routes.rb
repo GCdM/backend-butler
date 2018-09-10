@@ -9,13 +9,14 @@ Rails.application.routes.draw do
 
       resources :households, only: [:show]
 
-      resources :expenses, only: [:create]
-
-      patch '/payments/:id/received', to: 'payments#received'
-      patch '/payments/:id/paid', to: 'payments#paid'
-
+      resources :events, only: [:create]
       patch '/event_users/:id/accept', to: 'events#accept'
       patch '/event_users/:id/reject', to: 'events#reject'
+
+      resources :expenses, only: [:create]
+      patch '/payments/:id/received', to: 'payments#received'
+      patch '/payments/:id/paid', to: 'payments#paid'
+  
     end
   end
 end
