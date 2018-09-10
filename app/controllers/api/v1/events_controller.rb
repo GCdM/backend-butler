@@ -1,5 +1,5 @@
 class Api::V1::EventsController < ApplicationController
-  before_action :set_event_user, only: [:accept, :reject]
+  before_action :set_event_user, only: [:accept, :reject, :accept_house, :reject_house]
 
   def create
     @event = Event.new(event_params)
@@ -22,6 +22,22 @@ class Api::V1::EventsController < ApplicationController
   def reject
     if @event_user.update(status: "rejected")
       render json: @event_user.user, serializer: UserInfoSerializer
+    else
+      render json: { error: "Could not reject invitation" }
+    end
+  end
+
+  def accept_house
+    if @event_user.update(status: "accepted")
+      render json: @event_user.user.household, serializer: HouseholdSerializer
+    else
+      render json: { error: "Could not accept invitation" }
+    end
+  end
+
+  def reject_house
+    if @event_user.update(status: "rejected")
+      render json: @event_user.user.household, serializer: HouseholdSerializer
     else
       render json: { error: "Could not reject invitation" }
     end
