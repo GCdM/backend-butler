@@ -12,11 +12,13 @@ Rails.application.routes.draw do
       resources :events, only: [:create]
       patch '/event_users/:id/accept', to: 'events#accept'
       patch '/event_users/:id/reject', to: 'events#reject'
+      patch '/event_users/:id/accept_house', to: 'events#accept_house'
+      patch '/event_users/:id/reject_house', to: 'events#reject_house'
 
       resources :expenses, only: [:create]
       patch '/payments/:id/received', to: 'payments#received'
       patch '/payments/:id/paid', to: 'payments#paid'
-  
+
     end
   end
 end
