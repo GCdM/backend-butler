@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       patch '/payments/:id/received', to: 'payments#received'
       patch '/payments/:id/paid', to: 'payments#paid'
 
+      resources :responsibilities, only: [:create]
+      post '/responsibilities/:id/create_log', to: 'responsibilities#create_log'
+
     end
   end
 end
