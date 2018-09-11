@@ -3,6 +3,9 @@ class UserInfoSerializer < ActiveModel::Serializer
 
   def data
     {
+      id: object.id,
+      displayName: object.display_name,
+      imgUrl: object.img_url,
       events: events,
       responsibilities: [],
       expenses: expenses,
@@ -58,7 +61,7 @@ class UserInfoSerializer < ActiveModel::Serializer
         userImg: event_user.user.img_url,
         status: event_user.status,
       }
-    }
+    }.sort_by { |attendance| attendance[:id] }
   end
 
   def parse_expense_payments(payments)

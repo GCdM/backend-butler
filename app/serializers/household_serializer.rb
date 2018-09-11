@@ -5,9 +5,19 @@ class HouseholdSerializer < ActiveModel::Serializer
     {
       id: object.id,
       name: object.name,
+      members: members,
       events: events,
       responsibilities: [],
       expenses: expenses,
+    }
+  end
+
+  def members
+    object.users.map { |user| {
+        id: user.id,
+        displayName: user.display_name,
+        imgUrl: user.img_url,
+      }
     }
   end
 
@@ -29,7 +39,7 @@ class HouseholdSerializer < ActiveModel::Serializer
         userImg: event_user.user.img_url,
         status: event_user.status,
       }
-    }
+    }.sort_by { |attendance| attendance[:id] }
   end
 
   def expenses
