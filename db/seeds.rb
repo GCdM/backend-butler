@@ -12,6 +12,8 @@ num_of_households = [2, 3, 4, 5, 6]
 num_of_users = [2, 3, 4, 5, 6, 7, 8]
 num_of_expenses = [1, 2, 3]
 num_of_events = [1, 2]
+num_of_resps = [3, 4, 5, 6, 7]
+num_of_resp_users = [2, 3, 4, 5]
 
 lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
 event_counter = 0
@@ -29,6 +31,10 @@ num_of_households.sample.times do
 
   end
 
+  num_of_resps.sample.times do
+    Responsibility.create(household: house, title: Faker::TheITCrowd.quote)
+  end
+
   house.users.each do |user|
 
     num_of_expenses.sample.times do
@@ -39,12 +45,12 @@ num_of_households.sample.times do
     num_of_events.sample.times do
       Event.create(household: house, date: Faker::Date.between(Date.today, 100.days.from_now), title: "Event #{event_counter += 1}", description: lorem)
     end
+
+    num_of_resp_users.sample.times do
+      ResponsibilityUser.create(responsibility: house.responsibilities.sample, user: user, description: Faker::Lebowski.quote, date: Faker::Date.between(100.days.ago, Date.today))
+    end
   end
 
-  puts "Household: #{house.id}"
-  puts "Users: #{house.users.length}"
-  puts "Expenses: #{house.expenses.length}"
-  puts "Events: #{house.events.length}"
 end
 
 puts "____________________"
