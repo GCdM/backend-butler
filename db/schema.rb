@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_135603) do
+ActiveRecord::Schema.define(version: 2018_09_11_095634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,25 @@ ActiveRecord::Schema.define(version: 2018_08_30_135603) do
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
 
+  create_table "responsibilities", force: :cascade do |t|
+    t.bigint "household_id"
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["household_id"], name: "index_responsibilities_on_household_id"
+  end
+
+  create_table "responsibility_users", force: :cascade do |t|
+    t.bigint "responsibility_id"
+    t.bigint "user_id"
+    t.string "description"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["responsibility_id"], name: "index_responsibility_users_on_responsibility_id"
+    t.index ["user_id"], name: "index_responsibility_users_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username"
     t.string "display_name"
@@ -84,5 +103,8 @@ ActiveRecord::Schema.define(version: 2018_08_30_135603) do
   add_foreign_key "expenses", "users"
   add_foreign_key "payments", "expenses"
   add_foreign_key "payments", "users"
+  add_foreign_key "responsibilities", "households"
+  add_foreign_key "responsibility_users", "responsibilities"
+  add_foreign_key "responsibility_users", "users"
   add_foreign_key "users", "households"
 end
