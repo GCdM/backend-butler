@@ -8,7 +8,8 @@ class User < ApplicationRecord
   has_many :responsibility_users
   has_many :responsibilities, through: :responsibility_users
 
-  validates :username, uniqueness: true
+  validates :username, uniqueness: true, length: { minimum: 3 }
+  validates :password, presence: true, length: { minimum: 5 }
 
   def initialize(args)
     super(args)
