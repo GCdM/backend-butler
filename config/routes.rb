@@ -7,7 +7,8 @@ Rails.application.routes.draw do
       get '/current_user', to: 'users#get_current_user'
       get '/users_info/:id', to: 'users#info'
 
-      resources :households, only: [:show]
+      resources :households, only: [:create, :show]
+      patch '/households/:id/:user_id', to: 'households#join'
 
       resources :events, only: [:create]
       patch '/event_users/:id/accept', to: 'events#accept'

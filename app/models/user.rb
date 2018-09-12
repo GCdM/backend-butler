@@ -8,4 +8,12 @@ class User < ApplicationRecord
   has_many :responsibility_users
 
   validates :username, uniqueness: true
+
+  def initialize(args)
+    super(args)
+
+    if !args[:img_url]
+      self.update(img_url: "https://robohash.org/oditutad.png?size=300x300&set=set1")
+    end
+  end
 end
