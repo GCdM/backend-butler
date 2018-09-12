@@ -77,7 +77,7 @@ class HouseholdSerializer < ActiveModel::Serializer
         date: expense.date,
         payments: parse_expense_payments(expense.payments),
       }
-    }
+    }.sort_by { |expense| expense[:date] }.reverse
   end
 
   def parse_expense_payments(payments)
