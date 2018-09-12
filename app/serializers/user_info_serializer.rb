@@ -22,7 +22,7 @@ class UserInfoSerializer < ActiveModel::Serializer
         description: event.description,
         attendance: attendance(event.event_users),
       }
-    }
+    }.sort_by { |event| event[:date] }
   end
 
   def expenses
