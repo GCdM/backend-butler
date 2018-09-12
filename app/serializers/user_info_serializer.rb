@@ -7,14 +7,15 @@ class UserInfoSerializer < ActiveModel::Serializer
       displayName: object.display_name,
       imgUrl: object.img_url,
       events: events,
-      responsibilities: [],
+      responsibilities: responsibilities,
       expenses: expenses,
       payments: payments,
     }
   end
 
   def events
-    object.household.events.map { |event| {
+    object.household.events.map { |event|
+      {
         id: event.id,
         date: event.date,
         title: event.title,
@@ -22,13 +23,11 @@ class UserInfoSerializer < ActiveModel::Serializer
         attendance: attendance(event.event_users),
       }
     }
-
-    # result = events.select { |event| EventUser.find_by(event_id: event[:id], user_id: object.id).status != "rejected" }
-    # result
   end
 
   def expenses
-    object.expenses.map { |expense| {
+    object.expenses.map { |expense|
+      {
         userName: expense.user.display_name,
         userImg: expense.user.img_url,
         title: expense.title,
@@ -40,8 +39,32 @@ class UserInfoSerializer < ActiveModel::Serializer
     }
   end
 
+  def responsibilities
+    object.responsibilities.map { |responsibility|
+      {
+        id: responsibility.id,
+        title: responsibility.title,
+        logs: parse_logs(responsibility.responsibility_users),
+      }
+    }
+  end
+
+  def parse_logs(logs)
+    logs.select { |log|
+      log.user.id === object.id
+    }.map { |log|
+      {
+        userImg: log.user.img_url,
+        date: log.date,
+        responsibilityTitle: log.responsibility.title,
+        description: log.description,
+      }
+    }.sort_by { |log| log[:date] }.reverse
+  end
+
   def payments
-    result = object.payments.map { |payment| {
+    result = object.payments.map { |payment|
+      {
         id: payment.id,
         summary: payment_summary(payment),
         userImg: payment.expense.user.img_url,
@@ -55,7 +78,8 @@ class UserInfoSerializer < ActiveModel::Serializer
   end
 
   def attendance(event_users)
-    event_users.map { |event_user| {
+    event_users.map { |event_user|
+      {
         id: event_user.id,
         userId: event_user.user.id,
         userImg: event_user.user.img_url,
@@ -65,7 +89,8 @@ class UserInfoSerializer < ActiveModel::Serializer
   end
 
   def parse_expense_payments(payments)
-    payments.map { |payment| {
+    payments.map { |payment|
+      {
         id: payment.id,
         userImg: payment.user.img_url,
         status: payment.status,
