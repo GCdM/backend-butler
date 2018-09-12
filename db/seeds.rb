@@ -21,7 +21,7 @@ event_counter = 0
 
 num_of_households.sample.times do
 
-  house = Household.create(name: Faker::Address.street_address)
+  house = Household.create(name: Faker::Address.street_address, key: Faker::FunnyName.name)
 
   num_of_users.sample.times do
 

@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2018_09_11_095634) do
     t.string "description"
     t.datetime "date"
     t.integer "amount_cents", default: 0, null: false
-    t.string "amount_currency", default: "GBP", null: false
+    t.string "amount_currency", default: "USD", null: false
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2018_09_11_095634) do
 
   create_table "households", force: :cascade do |t|
     t.string "name"
+    t.string "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -58,7 +59,7 @@ ActiveRecord::Schema.define(version: 2018_09_11_095634) do
     t.bigint "expense_id"
     t.bigint "user_id"
     t.integer "amount_cents", default: 0, null: false
-    t.string "amount_currency", default: "GBP", null: false
+    t.string "amount_currency", default: "USD", null: false
     t.boolean "paid"
     t.boolean "received"
     t.datetime "created_at", null: false

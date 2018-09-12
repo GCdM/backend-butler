@@ -15,26 +15,12 @@ class Api::V1::HouseholdsController < ApplicationController
     render json: @household
   end
 
-  def join
-    @user = User.find(params[:user_id])
-
-    if @user.update(household_id: params[:id])
-      @user.household.events.each do |event|
-        EventUser.create(event: event, user: @user, status: "pending")
-      end
-
-      render json: @user
-    else
-      render json: { error: "Could not join Household" }
-    end
-  end
-
   private
   def set_household
     @household = Household.find(params[:id])
   end
 
   def household_params
-    params.require(:household).permit(:name)
+    params.require(:household).permit(:name, :key)
   end
 end

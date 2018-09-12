@@ -5,6 +5,7 @@ class HouseholdSerializer < ActiveModel::Serializer
     {
       id: object.id,
       name: object.name,
+      key: object.key,
       members: members,
       events: events,
       responsibilities: responsibilities,

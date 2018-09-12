@@ -1,3 +1,5 @@
+require 'faker'
+
 class User < ApplicationRecord
   has_secure_password
   belongs_to :household, optional: true
@@ -9,13 +11,9 @@ class User < ApplicationRecord
   has_many :responsibilities, through: :responsibility_users
 
   validates :username, presence: true, uniqueness: true, length: { minimum: 3 }
-  validates :password, presence: true, length: { minimum: 5 }
 
   def initialize(args)
     super(args)
-
-    if !args[:img_url]
-      self.update(img_url: "https://robohash.org/oditutad.png?size=300x300&set=set1")
-    end
+    self.update(img_url: Faker::Avatar.image)
   end
 end

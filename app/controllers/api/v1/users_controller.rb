@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show, :info, :update, :destroy]
+  before_action :set_user, only: [:show, :info, :join, :update, :destroy]
 
   def create
     @user = User.new(user_params)
@@ -17,6 +17,20 @@ class Api::V1::UsersController < ApplicationController
 
   def info
     render json: @user, serializer: UserInfoSerializer
+  end
+
+  def join
+    @household = Household.find_by(key: params[:key])
+
+    if @household && @user.update(household: @household)
+      @user.household.events.each do |event|
+        EventUser.create(event: event, user: @user, status: "pending")
+      end
+
+      render json: @user
+    else
+      render json: { error: "Could not join Household" }
+    end
   end
 
   def update
