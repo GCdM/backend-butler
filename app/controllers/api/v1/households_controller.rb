@@ -2,6 +2,7 @@ class Api::V1::HouseholdsController < ApplicationController
   before_action :set_household, only: [:show]
 
   def create
+    byebug
     @household = Household.new(household_params)
 
     if @household.save && User.find(params[:user_id]).update(household_id: @household.id)

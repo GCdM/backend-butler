@@ -39,7 +39,7 @@ num_of_households.sample.times do
 
     num_of_expenses.sample.times do
 
-      Expense.create(user: user, title: Faker::Food.dish, description: Faker::Food.description, date: Faker::Date.between(100.days.ago, Date.today), amount: rand(300), category: "expense")
+      Expense.create(user: user, title: Faker::Food.dish, description: Faker::Food.description, date: Faker::Date.between(100.days.ago, Date.today), amount: rand(150), category: "expense")
     end
 
     num_of_events.sample.times do
